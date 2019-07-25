@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gud_redstoneplus:slime_black"
+    }
+  ],
+  "result": {
+    "item": "gud_redstoneplus:slime_ball_black",
+    "count": 9
+  }
+}

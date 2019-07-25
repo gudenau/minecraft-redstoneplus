@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "gud_redstoneplus",
+  "version": "${version}",
+
+  "name": "Redstone+",
+  "description": "More redstone junk.",
+  "authors": [
+    "gudenau"
+  ],
+  "contact": {
+    "homepage": "https://gudenau.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/gud_redstoneplus/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.gudenau.minecraft.redstoneplus.RedstonePlus"
+    ],
+    "client": [
+      "net.gudenau.minecraft.redstoneplus.RedstonePlusClient"
+    ]
+  },
+  "mixins": [
+    "gud_redstoneplus.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  }
+}

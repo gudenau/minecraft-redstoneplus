@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "net.gudenau.minecraft.redstoneplus.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "PistonHandlerMixin",
+    "SlimeEntityMixin"
+  ],
+  "client": [
+    "SlimeEntityModelMixin",
+    "SlimeEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
