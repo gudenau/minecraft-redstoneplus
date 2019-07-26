@@ -2,6 +2,7 @@ package net.gudenau.minecraft.redstoneplus;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.gudenau.minecraft.redstoneplus.api.IColoredRedstone;
 import net.gudenau.minecraft.redstoneplus.entity.SlimeBallEntity;
 import net.gudenau.minecraft.redstoneplus.item.ColoredSlimeItem;
@@ -9,13 +10,16 @@ import net.gudenau.minecraft.redstoneplus.recipe.RedstoneDyeRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.block.SlimeBlock;
-import net.minecraft.data.server.recipe.ComplexRecipeJsonFactory;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.*;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.AliasedBlockItem;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.network.Packet;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
@@ -23,9 +27,6 @@ import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class RedstonePlus implements ModInitializer{
     @SuppressWarnings("WeakerAccess")
@@ -119,13 +120,16 @@ public class RedstonePlus implements ModInitializer{
         public static AliasedBlockItem redstoneDustBlack;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public static class Entities{
         public static EntityType<SlimeBallEntity> slimeBallEntity;
     }
 
     public static class Recipes{
         public static SpecialRecipeSerializer<RedstoneDyeRecipe> redstoneDye;
+    }
+
+    public static class Packets{
+        public static final Identifier spawnSlime = new Identifier("gud_redstoneplus", "spawn_slimeball");
     }
 
     @Override
@@ -231,13 +235,13 @@ public class RedstonePlus implements ModInitializer{
             "slimeball",
             FabricEntityTypeBuilder.create(EntityCategory.MISC, (EntityType.EntityFactory<SlimeBallEntity>)SlimeBallEntity::new)
                 .size(EntityDimensions.changing(0.25F, 0.25F))
-                .trackable(5, 20, true)
+                .trackable(32, 20, true)
         );
     }
 
     // At this point the Fabric people stopped being helpful so I just did whatever worked.
     // If you know a better way, please PR it.
-    public void registerRecipes(){
+    private void registerRecipes(){
         register(
             "crafting_special_dye_redstone"
         );

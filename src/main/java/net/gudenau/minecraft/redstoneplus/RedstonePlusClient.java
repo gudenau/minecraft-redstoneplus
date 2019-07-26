@@ -4,11 +4,15 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.render.EntityRendererRegistry;
+import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.gudenau.minecraft.redstoneplus.client.RedstoneWireColor;
 import net.gudenau.minecraft.redstoneplus.entity.SlimeBallEntity;
 import net.gudenau.minecraft.redstoneplus.entity.renderer.SlimeBallEntityRenderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.DyeColor;
+import net.minecraft.world.World;
 
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
@@ -16,11 +20,37 @@ public class RedstonePlusClient implements ClientModInitializer{
     @Override
     public void onInitializeClient(){
         registerEntityRenderers();
+        registerPackets();
     }
 
     private void registerEntityRenderers(){
         EntityRendererRegistry entityRendererRegistry = EntityRendererRegistry.INSTANCE;
         entityRendererRegistry.register(SlimeBallEntity.class, SlimeBallEntityRenderer::new);
+    }
+
+    private void registerPackets(){
+        ClientSidePacketRegistry registry = ClientSidePacketRegistry.INSTANCE;
+        registry.register(
+            RedstonePlus.Packets.spawnSlime,
+            (context, buffer)->{
+                MinecraftClient client = MinecraftClient.getInstance();
+                SlimeBallEntity entity = new SlimeBallEntity(client.world);
+                entity.fromBuffer(buffer);
+                if(client.isOnThread()){
+                    spawnEntity(entity);
+                }else{
+                    client.execute(()->spawnEntity(entity));
+                }
+            }
+        );
+    }
+
+    private void spawnEntity(SlimeBallEntity entity){
+        MinecraftClient client = MinecraftClient.getInstance();
+        ClientWorld world = client.world;
+        if(world != null){
+            world.addEntity(entity.getEntityId(), entity);
+        }
     }
 
     public static void registerBlockColors(BlockColors blockColorMap){

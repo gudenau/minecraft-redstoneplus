@@ -19,8 +19,7 @@ public class ColoredSlimeItem extends Item{
         this.color = color;
     }
 
-    /* Disabled, not finished
-    @Override
+   @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand){
         ItemStack stack = player.getStackInHand(hand);
         if(!player.isCreative()){
@@ -39,7 +38,6 @@ public class ColoredSlimeItem extends Item{
         player.incrementStat(Stats.USED.getOrCreateStat(this));
         return new TypedActionResult<>(ActionResult.PASS, stack);
     }
-     */
 
     public DyeColor getColor(){
         return color;

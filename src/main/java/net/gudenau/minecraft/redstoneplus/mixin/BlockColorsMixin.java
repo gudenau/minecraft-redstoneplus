@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Environment(EnvType.CLIENT)
 @Mixin(BlockColors.class)
-public class BlockColorsMixin{
+public abstract class BlockColorsMixin{
     @Inject(
         method = "create",
         at = @At("TAIL"),
