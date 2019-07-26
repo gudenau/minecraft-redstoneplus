@@ -2,21 +2,30 @@ package net.gudenau.minecraft.redstoneplus;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
+import net.gudenau.minecraft.redstoneplus.api.IColoredRedstone;
 import net.gudenau.minecraft.redstoneplus.entity.SlimeBallEntity;
 import net.gudenau.minecraft.redstoneplus.item.ColoredSlimeItem;
+import net.gudenau.minecraft.redstoneplus.recipe.RedstoneDyeRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.block.SlimeBlock;
+import net.minecraft.data.server.recipe.ComplexRecipeJsonFactory;
+import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class RedstonePlus implements ModInitializer{
     @SuppressWarnings("WeakerAccess")
@@ -39,6 +48,21 @@ public class RedstonePlus implements ModInitializer{
         public static SlimeBlock slimeBlockBlack;
 
         public static RedstoneWireBlock redstoneWireWhite;
+        public static RedstoneWireBlock redstoneWireOrange;
+        public static RedstoneWireBlock redstoneWireMagenta;
+        public static RedstoneWireBlock redstoneWireLightBlue;
+        public static RedstoneWireBlock redstoneWireYellow;
+        public static RedstoneWireBlock redstoneWireLime;
+        public static RedstoneWireBlock redstoneWirePink;
+        public static RedstoneWireBlock redstoneWireGray;
+        public static RedstoneWireBlock redstoneWireLightGray;
+        public static RedstoneWireBlock redstoneWireCyan;
+        public static RedstoneWireBlock redstoneWirePurple;
+        public static RedstoneWireBlock redstoneWireBlue;
+        public static RedstoneWireBlock redstoneWireBrown;
+        public static RedstoneWireBlock redstoneWireGreen;
+        public static RedstoneWireBlock redstoneWireRed;
+        public static RedstoneWireBlock redstoneWireBlack;
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -76,6 +100,23 @@ public class RedstonePlus implements ModInitializer{
         public static ColoredSlimeItem slimeBallGreen;
         public static ColoredSlimeItem slimeBallRed;
         public static ColoredSlimeItem slimeBallBlack;
+
+        public static AliasedBlockItem redstoneDustWhite;
+        public static AliasedBlockItem redstoneDustOrange;
+        public static AliasedBlockItem redstoneDustMagenta;
+        public static AliasedBlockItem redstoneDustLightBlue;
+        public static AliasedBlockItem redstoneDustYellow;
+        public static AliasedBlockItem redstoneDustLime;
+        public static AliasedBlockItem redstoneDustPink;
+        public static AliasedBlockItem redstoneDustGray;
+        public static AliasedBlockItem redstoneDustLightGray;
+        public static AliasedBlockItem redstoneDustCyan;
+        public static AliasedBlockItem redstoneDustPurple;
+        public static AliasedBlockItem redstoneDustBlue;
+        public static AliasedBlockItem redstoneDustBrown;
+        public static AliasedBlockItem redstoneDustGreen;
+        public static AliasedBlockItem redstoneDustRed;
+        public static AliasedBlockItem redstoneDustBlack;
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -83,13 +124,19 @@ public class RedstonePlus implements ModInitializer{
         public static EntityType<SlimeBallEntity> slimeBallEntity;
     }
 
+    public static class Recipes{
+        public static SpecialRecipeSerializer<RedstoneDyeRecipe> redstoneDye;
+    }
+
     @Override
     public void onInitialize(){
         registerBlocks();
         registerItems();
         registerEntities();
+        registerRecipes();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void registerBlocks(){
         Blocks.slimeBlockWhite     = register("slime_white",      new SlimeBlock(Block.Settings.copy(net.minecraft.block.Blocks.SLIME_BLOCK)));
         Blocks.slimeBlockOrange    = register("slime_orange",     new SlimeBlock(Block.Settings.copy(net.minecraft.block.Blocks.SLIME_BLOCK)));
@@ -108,8 +155,22 @@ public class RedstonePlus implements ModInitializer{
         Blocks.slimeBlockRed       = register("slime_red",        new SlimeBlock(Block.Settings.copy(net.minecraft.block.Blocks.SLIME_BLOCK)));
         Blocks.slimeBlockBlack     = register("slime_black",      new SlimeBlock(Block.Settings.copy(net.minecraft.block.Blocks.SLIME_BLOCK)));
 
-        // Disabled, not finished
-        //Blocks.redstoneWireWhite = register("redstone_wire_white", new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE)));
+        Blocks.redstoneWireWhite     = register("redstone_wire_white",      ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.WHITE));
+        Blocks.redstoneWireOrange    = register("redstone_wire_orange",     ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.ORANGE));
+        Blocks.redstoneWireMagenta   = register("redstone_wire_magenta",    ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.MAGENTA));
+        Blocks.redstoneWireLightBlue = register("redstone_wire_light_blue", ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.LIGHT_BLUE));
+        Blocks.redstoneWireYellow    = register("redstone_wire_yellow",     ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.YELLOW));
+        Blocks.redstoneWireLime      = register("redstone_wire_lime",       ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.LIME));
+        Blocks.redstoneWirePink      = register("redstone_wire_pink",       ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.PINK));
+        Blocks.redstoneWireGray      = register("redstone_wire_gray",       ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.GRAY));
+        Blocks.redstoneWireLightGray = register("redstone_wire_light_gray", ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.LIGHT_GRAY));
+        Blocks.redstoneWireCyan      = register("redstone_wire_cyan",       ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.CYAN));
+        Blocks.redstoneWirePurple    = register("redstone_wire_purple",     ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.PURPLE));
+        Blocks.redstoneWireBlue      = register("redstone_wire_blue",       ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.BLUE));
+        Blocks.redstoneWireBrown     = register("redstone_wire_brown",      ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.BROWN));
+        Blocks.redstoneWireGreen     = register("redstone_wire_green",      ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.GREEN));
+        Blocks.redstoneWireRed       = register("redstone_wire_red",        ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.RED));
+        Blocks.redstoneWireBlack     = register("redstone_wire_black",      ((IColoredRedstone)new RedstoneWireBlock(Block.Settings.copy(net.minecraft.block.Blocks.REDSTONE_WIRE))).setColor(DyeColor.BLACK));
     }
 
     private void registerItems(){
@@ -146,6 +207,23 @@ public class RedstonePlus implements ModInitializer{
         Items.slimeBallGreen     = register("slime_ball_green",      new ColoredSlimeItem(DyeColor.GREEN,      new Item.Settings().group(ItemGroup.MISC)));
         Items.slimeBallRed       = register("slime_ball_red",        new ColoredSlimeItem(DyeColor.RED,        new Item.Settings().group(ItemGroup.MISC)));
         Items.slimeBallBlack     = register("slime_ball_black",      new ColoredSlimeItem(DyeColor.BLACK,      new Item.Settings().group(ItemGroup.MISC)));
+
+        Items.redstoneDustWhite    = register("redstone_dust_white",      new AliasedBlockItem(Blocks.redstoneWireWhite, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustOrange   = register("redstone_dust_orange",     new AliasedBlockItem(Blocks.redstoneWireOrange, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustMagenta  = register("redstone_dust_magenta",    new AliasedBlockItem(Blocks.redstoneWireMagenta, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustLightBlue= register("redstone_dust_light_blue", new AliasedBlockItem(Blocks.redstoneWireLightBlue, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustYellow   = register("redstone_dust_yellow",     new AliasedBlockItem(Blocks.redstoneWireYellow, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustLime     = register("redstone_dust_lime",       new AliasedBlockItem(Blocks.redstoneWireLime, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustPink     = register("redstone_dust_pink",       new AliasedBlockItem(Blocks.redstoneWirePink, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustGray     = register("redstone_dust_gray",       new AliasedBlockItem(Blocks.redstoneWireGray, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustLightGray= register("redstone_dust_light_gray", new AliasedBlockItem(Blocks.redstoneWireLightGray, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustCyan     = register("redstone_dust_cyan",       new AliasedBlockItem(Blocks.redstoneWireCyan, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustPurple   = register("redstone_dust_purple",     new AliasedBlockItem(Blocks.redstoneWirePurple, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustBlue     = register("redstone_dust_blue",       new AliasedBlockItem(Blocks.redstoneWireBlue, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustBrown    = register("redstone_dust_brown",      new AliasedBlockItem(Blocks.redstoneWireBrown, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustGreen    = register("redstone_dust_green",      new AliasedBlockItem(Blocks.redstoneWireGreen, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustRed      = register("redstone_dust_red",        new AliasedBlockItem(Blocks.redstoneWireRed, new Item.Settings().group(ItemGroup.REDSTONE)));
+        Items.redstoneDustBlack    = register("redstone_dust_black",      new AliasedBlockItem(Blocks.redstoneWireBlack, new Item.Settings().group(ItemGroup.REDSTONE)));
     }
 
     private void registerEntities(){
@@ -154,6 +232,18 @@ public class RedstonePlus implements ModInitializer{
             FabricEntityTypeBuilder.create(EntityCategory.MISC, (EntityType.EntityFactory<SlimeBallEntity>)SlimeBallEntity::new)
                 .size(EntityDimensions.changing(0.25F, 0.25F))
                 .trackable(5, 20, true)
+        );
+    }
+
+    // At this point the Fabric people stopped being helpful so I just did whatever worked.
+    // If you know a better way, please PR it.
+    public void registerRecipes(){
+        register(
+            "crafting_special_dye_redstone"
+        );
+        register(
+            "crafting_special_dye_redstone",
+            new SpecialRecipeSerializer<>(RedstoneDyeRecipe::new)
         );
     }
 
@@ -186,6 +276,26 @@ public class RedstonePlus implements ModInitializer{
             Registry.ENTITY_TYPE,
             new Identifier("gud_redstoneplus", name),
             type.build()
+        );
+    }
+
+    private <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String name, S serializer) {
+        return Registry.register(
+            Registry.RECIPE_SERIALIZER,
+            new Identifier("gud_redstoneplus", name),
+            serializer
+        );
+    }
+
+    private <T extends Recipe<?>> RecipeType<T> register(String name){
+        return Registry.register(
+            Registry.RECIPE_TYPE,
+            new Identifier("gud_redstoneplus", name),
+            new RecipeType<T>(){
+                public String toString(){
+                    return name;
+                }
+            }
         );
     }
 }

@@ -31,5 +31,22 @@
   "item.gud_redstoneplus.slime_ball_brown": "Brown Slimeball",
   "item.gud_redstoneplus.slime_ball_green": "Green Slimeball",
   "item.gud_redstoneplus.slime_ball_red": "Red Slimeball",
-  "item.gud_redstoneplus.slime_ball_black": "Black Slimeball"
+  "item.gud_redstoneplus.slime_ball_black": "Black Slimeball",
+
+  "item.gud_redstoneplus.redstone_dust_white": "White Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_orange": "Orange Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_magenta": "Magenta Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_light_blue": "Light Blue Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_yellow": "Yellow Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_lime": "Lime Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_pink": "Pink Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_gray": "Gray Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_light_gray": "Light Gray Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_cyan": "Cyan Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_purple": "Purple Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_blue": "Blue Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_brown": "Brown Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_green": "Green Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_red": "Red Redstone Dust",
+  "item.gud_redstoneplus.redstone_dust_black": "Black Redstone Dust"
 }

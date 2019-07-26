@@ -4,9 +4,11 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "PistonHandlerMixin",
+    "RedstoneWireBlockMixin",
     "SlimeEntityMixin"
   ],
   "client": [
+    "BlockColorsMixin",
     "SlimeEntityModelMixin",
     "SlimeEntityRendererMixin"
   ],
