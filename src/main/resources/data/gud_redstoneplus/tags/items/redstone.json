@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:redstone",
+    "gud_redstoneplus:redstone_dust_white",
+    "gud_redstoneplus:redstone_dust_orange",
+    "gud_redstoneplus:redstone_dust_magenta",
+    "gud_redstoneplus:redstone_dust_light_blue",
+    "gud_redstoneplus:redstone_dust_yellow",
+    "gud_redstoneplus:redstone_dust_lime",
+    "gud_redstoneplus:redstone_dust_pink",
+    "gud_redstoneplus:redstone_dust_gray",
+    "gud_redstoneplus:redstone_dust_light_gray",
+    "gud_redstoneplus:redstone_dust_cyan",
+    "gud_redstoneplus:redstone_dust_purple",
+    "gud_redstoneplus:redstone_dust_blue",
+    "gud_redstoneplus:redstone_dust_brown",
+    "gud_redstoneplus:redstone_dust_green",
+    "gud_redstoneplus:redstone_dust_red",
+    "gud_redstoneplus:redstone_dust_black"
+  ]
+}

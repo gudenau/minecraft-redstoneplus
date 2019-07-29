@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:slime_ball",
+    "gud_redstoneplus:slime_ball_white",
+    "gud_redstoneplus:slime_ball_orange",
+    "gud_redstoneplus:slime_ball_magenta",
+    "gud_redstoneplus:slime_ball_light_blue",
+    "gud_redstoneplus:slime_ball_yellow",
+    "gud_redstoneplus:slime_ball_lime",
+    "gud_redstoneplus:slime_ball_pink",
+    "gud_redstoneplus:slime_ball_gray",
+    "gud_redstoneplus:slime_ball_light_gray",
+    "gud_redstoneplus:slime_ball_cyan",
+    "gud_redstoneplus:slime_ball_purple",
+    "gud_redstoneplus:slime_ball_blue",
+    "gud_redstoneplus:slime_ball_brown",
+    "gud_redstoneplus:slime_ball_green",
+    "gud_redstoneplus:slime_ball_red",
+    "gud_redstoneplus:slime_ball_black"
+  ]
+}
